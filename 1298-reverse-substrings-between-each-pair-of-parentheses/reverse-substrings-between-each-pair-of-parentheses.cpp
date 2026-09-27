@@ -6,19 +6,21 @@ public:
         while(i<s.length()&&s[i]!=')'){
             if(s[i]=='('){
                 i++;
-                ans+=pal(s);
+                string temp=pal(s);
+                reverse(temp.begin(),temp.end());
+                ans+=temp;
                 }
              else ans+=s[i];
             
             i++;
         }
-        reverse(ans.begin(),ans.end());
+       
         return ans;
 
     }
     string reverseParentheses(string s) {
         string ans=pal(s);
-        reverse(ans.begin(),ans.end());
+        
         return ans;
     }
 };
