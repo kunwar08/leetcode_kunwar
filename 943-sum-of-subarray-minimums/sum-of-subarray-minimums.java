@@ -1,41 +1,43 @@
 class Solution {
-    int[] sLeft(int[] arr){
-        Stack<Integer> st=new Stack<>();
+    void left(int[] arr,int[] ans){
         int n=arr.length;
-        int[] left=new int[n];
+        Stack<Integer>st = new Stack<>();
         for(int i=0;i<n;i++){
-            while(!st.empty()&&arr[st.peek()]>=arr[i])st.pop();
-            if(st.empty())left[i]=-1;
-            else left[i]=st.peek();
+            while(!st.isEmpty()&&arr[st.peek()]>=arr[i])st.pop();
+            if(!st.isEmpty())ans[i]=st.peek();
+            else ans[i]=-1;
             st.push(i);
         }
-        return left;
     }
-    int[] sright(int[] arr){
-        Stack<Integer> st=new Stack<>();
+
+    void right(int[] arr,int[] ans){
         int n=arr.length;
-        int[] left=new int[n];
+        Stack<Integer>st = new Stack<>();
         for(int i=n-1;i>=0;i--){
-            while(!st.empty()&&arr[st.peek()]>arr[i])st.pop();
-            if(st.empty())left[i]=n;
-            else left[i]=st.peek();
+            while(!st.isEmpty()&&arr[st.peek()]>arr[i])st.pop();
+            if(!st.isEmpty())ans[i]=st.peek();
+            else ans[i]=n;
             st.push(i);
         }
-        return left;
     }
     public int sumSubarrayMins(int[] arr) {
         int n=arr.length;
+        int[] ans1=new int[n];
+        int[] ans2=new int[n];
+
+        left(arr,ans1);
+        right(arr,ans2);
+        
         long sum=0;
         int mod=1000000007;
-        int[] left=sLeft(arr);
-        int[] right=sright(arr);
+
         for(int i=0;i<n;i++){
-            int l=i-left[i];
-            int r=right[i]-i;
-            long fre=(long)l*r;
-            long val=(fre*arr[i])%mod;
-            sum=(sum+val)%mod;
+            long val=(i-ans1[i])*(ans2[i]-i);
+            long temp=(val*arr[i])%mod;
+            sum=(sum+temp)%mod;
         }
+
         return (int)sum;
+
     }
 }
